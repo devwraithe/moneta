@@ -1,4 +1,9 @@
-import { tokenMetadata, filePath, rpcUrl } from "./utilities";
+import {
+  tokenMetadata,
+  filePath,
+  endpoint,
+  loadKeypairFromFile,
+} from "./utilities";
 import {
   createV1,
   findMetadataPda,
@@ -13,19 +18,20 @@ import {
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { base58 } from "@metaplex-foundation/umi/serializers";
 import { mplToolbox } from "@metaplex-foundation/mpl-toolbox";
-import * as fs from "fs";
 import promptSync from "prompt-sync";
 
 async function addMetadata() {
   const prompt = promptSync();
+
   const mintAddress: string = prompt("Enter mint address: ");
   const mint = publicKey(mintAddress);
 
-  const umi = createUmi(rpcUrl).use(mplTokenMetadata()).use(mplToolbox());
-  const walletJson = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-  const walletArray = new Uint8Array(walletJson);
-  const walletKeypair = umi.eddsa.createKeypairFromSecretKey(walletArray);
-  umi.use(keypairIdentity(walletKeypair));
+  const umi = createUmi(endpoint).use(mplTokenMetadata()).use(mplToolbox());
+  const walletKeypair = loadKeypairFromFile(filePath);
+  const wallet = umi.eddsa.createKeypairFromSecretKey(
+    new Uint8Array(walletKeypair.secretKey)
+  );
+  umi.use(keypairIdentity(wallet));
 
   console.log("Mint address:", mint);
 
@@ -42,14 +48,13 @@ async function addMetadata() {
     name: tokenMetadata.name,
     symbol: tokenMetadata.symbol,
     uri: tokenMetadata.uri,
-    sellerFeeBasisPoints: percentAmount(5.5), // 5.5%
+    sellerFeeBasisPoints: percentAmount(0),
     tokenStandard: TokenStandard.Fungible,
   }).sendAndConfirm(umi);
 
   let txnSig = base58.deserialize(txn.signature);
-  console.log(`Txn signature ${txnSig[0]}`);
+  console.log(`Metadata added to ${mint}. Txn signature: ${txnSig[0]}`);
 }
 
-(async () => {
-  addMetadata();
-})();
+// Call addMetadata function
+addMetadata();

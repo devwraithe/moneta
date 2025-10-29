@@ -1,26 +1,19 @@
 # Moneta
 
-**Create, customize, and mint SPL tokens on Solana.**
+**Create and mint SPL tokens on Solana.**
 
-Moneta is a straightforward toolkit for minting SPL tokens. Named after the Roman goddess of money and mints, Moneta lets you create token mints, add metadata, and mint tokens with simple commands. All on the Devnet.
+Moneta is a simple toolkit for creating SPL tokens on Solana Devnet. Named after the Roman goddess of money and mints, it provides three core functions: create a token mint, add metadata, and mint tokens.
 
-## Features
+## Mint Token Details
 
-- Create new SPL token mints
-- Add metadata (name, symbol, description, image)
-- Mint tokens to any wallet
-- Simple command-line interface
+**Token Address:** `Fdw8FEek786AZhg4PSSm7nsgHCCu3MsorVhXgMeWZY9a`
+
+![Token Info](./docs/dvrt-token.png)
+
+[View on Solana Explorer](https://explorer.solana.com/address/Fdw8FEek786AZhg4PSSm7nsgHCCu3MsorVhXgMeWZY9a?cluster=devnet)
 
 ## Setup
 
-### Prerequisites
-
-- Node.js (v16+)
-- Yarn
-- Solana CLI
-- A funded Solana wallet
-
-### Installation
 ```bash
 git clone https://github.com/devwraithe/moneta.git
 cd moneta
@@ -29,50 +22,28 @@ yarn install
 
 ## Usage
 
-### 1. Create a Mint
+**Create a mint**
+
 ```bash
 yarn create-mint
 ```
 
-Creates a new token mint and returns the mint address.
+**Add metadata**
 
-### 2. Add Metadata
 ```bash
 yarn add-metadata
 ```
 
-Adds name, symbol, description, and image to your mint.
+**Mint tokens**
 
-### 3. Mint Tokens
 ```bash
 yarn mint-tokens
-```
-
-Mints tokens to a specified wallet address (ATA created automatically).
-
-## Example
-```bash
-yarn create-mint
-# > Token mint created: EJ3oZpi9BRZDutANxzWkWVLXkSB9r9NnbKAaTKGATWqv
-
-yarn add-metadata
-# Enter mint address: EJ3oZpi9BRZDutANxzWkWVLXkSB9r9NnbKAaTKGATWqv
-# > Txn signature: ...
-
-yarn mint-tokens
-# Enter mint address: EJ3oZpi9BRZDutANxzWkWVLXkSB9r9NnbKAaTKGATWqv
-# Enter wallet address: ...
-# > Minted 125_000 tokens to WALLET_ADDRESS
 ```
 
 ## Security
 
-⚠️ Never commit your `mint_authority.json` file or share your private keys.
-
-## License
-
-MIT
+⚠️ **Never commit your `mint_authority.json` file or share your private keys.**
 
 ---
 
-*In cryptography we trust, in Moneta we forge.*
+_In cryptography we trust, in Moneta we forge._

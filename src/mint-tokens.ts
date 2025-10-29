@@ -1,26 +1,26 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
+import { getOrCreateAssociatedTokenAccount, mintTo } from "@solana/spl-token";
 import {
-  getOrCreateAssociatedTokenAccount,
-  mintTo,
-  TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
-import { commitment, rpcUrl, filePath } from "./utilities";
-import * as fs from "fs";
+  commitment,
+  endpoint,
+  filePath,
+  loadKeypairFromFile,
+} from "./utilities";
 import promptSync from "prompt-sync";
 
-const connection: Connection = new Connection(rpcUrl, commitment);
+const connection: Connection = new Connection(endpoint, commitment);
 
 async function mintTokens() {
   try {
+    const mintAmount = 150_000_000_000;
     const prompt = promptSync();
 
-    const walletJson = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    const walletArray = new Uint8Array(walletJson);
-    const mintAuthority = Keypair.fromSecretKey(walletArray);
+    const mintAuthority = loadKeypairFromFile(filePath);
 
     const mintAddress: string = prompt("Enter mint address: ");
-    const walletAddress: string = prompt("Enter wallet address: ");
     const mintPubkey = new PublicKey(mintAddress);
+
+    const walletAddress: string = prompt("Enter wallet (mint owner) address: ");
     const walletPubkey = new PublicKey(walletAddress);
 
     const aTokenAccount = await getOrCreateAssociatedTokenAccount(
@@ -30,8 +30,7 @@ async function mintTokens() {
       walletPubkey // owner
     );
 
-    const mintAmount = 125_000;
-    const txnSig = await mintTo(
+    const txn = await mintTo(
       connection,
       mintAuthority,
       mintPubkey,
@@ -39,15 +38,14 @@ async function mintTokens() {
       mintAuthority.publicKey,
       mintAmount
     );
+
     console.log(`Minted ${mintAmount} tokens to ${aTokenAccount.address}`);
-    console.log("Txn Signature:", txnSig);
+    console.log("Txn Signature:", txn);
   } catch (e) {
-    console.log("Error minting tokens to associated token account:", e);
+    console.log("Error minting tokens to token account:", e);
     throw e;
   }
 }
 
-// main
-(async () => {
-  mintTokens();
-})();
+// Call mintTokens function
+mintTokens();
