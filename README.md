@@ -1,18 +1,20 @@
-# Moneta
+# Moneta Mint
 
-**Create and mint SPL tokens on Solana.**
+Moneta is a simple, easy-to-use toolkit for creating **SPL tokens** on the **Solana Devnet**. Named after _Moneta_, the Roman goddess of money and mints, it helps you quickly go from idea to token in just a few steps. With Moneta, you can **create a new token mint**, **add custom metadata** like name and symbol, and **mint tokens** to any wallet — all without needing deep Solana knowledge. Whether you’re learning, testing, or building your next big idea, Moneta makes token creation fast and approachable.
 
-Moneta is a simple toolkit for creating SPL tokens on Solana Devnet. Named after the Roman goddess of money and mints, it provides three core functions: create a token mint, add metadata, and mint tokens.
+## Token Mint Screenshot and Hash
 
-## Mint Token Details
-
-**Token Address:** `Fdw8FEek786AZhg4PSSm7nsgHCCu3MsorVhXgMeWZY9a`
 
 ![Token Info](./docs/dvrt-token.png)
 
+> **Token Hash:**
+> `Fdw8FEek786AZhg4PSSm7nsgHCCu3MsorVhXgMeWZY9a`
+
 [View on Solana Explorer](https://explorer.solana.com/address/Fdw8FEek786AZhg4PSSm7nsgHCCu3MsorVhXgMeWZY9a?cluster=devnet)
 
-## Setup
+## Setup & Usage
+
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/devwraithe/moneta.git
@@ -20,21 +22,19 @@ cd moneta
 yarn install
 ```
 
-## Usage
-
-**Create a mint**
+2. Create a mint
 
 ```bash
 yarn create-mint
 ```
 
-**Add metadata**
+3. Add metadata
 
 ```bash
 yarn add-metadata
 ```
 
-**Mint tokens**
+4. Mint tokens
 
 ```bash
 yarn mint-tokens
@@ -42,8 +42,7 @@ yarn mint-tokens
 
 ## Security
 
-⚠️ **Never commit your `mint_authority.json` file or share your private keys.**
-
----
+> [!IMPORTANT]
+> **Never commit your `mint_authority.json` file or share your private keys.**
 
 _In cryptography we trust, in Moneta we forge._
